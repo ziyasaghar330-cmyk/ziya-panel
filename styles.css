@@ -1,0 +1,212 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --amoled-bg: #000105;
+    --amoled-card: #040914;
+    --amoled-input: #081224;
+    --amoled-border: #102040;
+}
+
+body {
+    font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--amoled-bg);
+    color: #ffffff;
+    direction: rtl;
+}
+
+.bg-amoled-bg {
+    background-color: var(--amoled-bg);
+}
+
+.bg-amoled-card {
+    background-color: var(--amoled-card);
+}
+
+.bg-amoled-input {
+    background-color: var(--amoled-input);
+}
+
+.border-amoled-border {
+    border-color: var(--amoled-border);
+}
+
+/* Tailwind Custom Colors */
+@layer components {
+    .bg-amoled-bg {
+        @apply bg-[#000105];
+    }
+    
+    .bg-amoled-card {
+        @apply bg-[#040914];
+    }
+    
+    .bg-amoled-input {
+        @apply bg-[#081224];
+    }
+    
+    .border-amoled-border {
+        @apply border-[#102040];
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--amoled-card);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--amoled-border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1a3a5c;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    backdrop-filter: blur(4px);
+}
+
+/* Button Styles */
+button {
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Input Styles */
+input, select {
+    font-family: inherit;
+}
+
+input:focus, select:focus {
+    outline: none;
+}
+
+/* Table Styles */
+table {
+    border-collapse: collapse;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--amoled-border);
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: var(--amoled-input);
+}
+
+/* Status Badge */
+.badge-active {
+    @apply bg-green-900/30 text-green-400 px-2 py-1 rounded text-xs font-medium;
+}
+
+.badge-inactive {
+    @apply bg-red-900/30 text-red-400 px-2 py-1 rounded text-xs font-medium;
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 16px 24px;
+    background-color: var(--amoled-card);
+    border: 1px solid var(--amoled-border);
+    border-radius: 8px;
+    color: #ffffff;
+    z-index: 9999;
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast.success {
+    border-left: 4px solid #10b981;
+}
+
+.toast.error {
+    border-left: 4px solid #ef4444;
+}
+
+.toast.info {
+    border-left: 4px solid #3b82f6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .grid-cols-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    
+    .overflow-x-auto {
+        font-size: 12px;
+    }
+    
+    .px-4 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+
+/* Light Mode (Optional) */
+body.light-mode {
+    --amoled-bg: #ffffff;
+    --amoled-card: #f5f5f5;
+    --amoled-input: #efefef;
+    --amoled-border: #e0e0e0;
+    color: #000000;
+}
+
+body.light-mode .text-gray-400 {
+    color: #666666;
+}
+
+body.light-mode .text-gray-600 {
+    color: #999999;
+}

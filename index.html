@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIYA Panel - پنل مدیریت کانفیگ</title>
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark bg-amoled-bg text-white font-sans">
+    <div id="app">
+        <!-- Login Page -->
+        <div id="login-page" class="min-h-screen flex items-center justify-center bg-amoled-bg">
+            <div class="w-full max-w-md">
+                <div class="bg-amoled-card border border-amoled-border rounded-lg shadow-2xl p-8">
+                    <div class="text-center mb-8">
+                        <h1 class="text-4xl font-bold text-blue-400 mb-2">⚡ ZIYA</h1>
+                        <p class="text-gray-400">پنل مدیریت کانفیگ</p>
+                    </div>
+                    
+                    <form id="login-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">رمز عبور</label>
+                            <input 
+                                type="password" 
+                                id="password-input" 
+                                placeholder="رمز عبور را وارد کنید"
+                                class="w-full px-4 py-2 bg-amoled-input border border-amoled-border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-center font-mono"
+                                required
+                            >
+                        </div>
+                        <button 
+                            type="submit"
+                            class="w-full py-2.5 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold rounded-lg transition duration-200"
+                        >
+                            ورود
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div id="dashboard-page" class="hidden min-h-screen bg-amoled-bg">
+            <!-- Header -->
+            <header class="bg-amoled-card border-b border-amoled-border sticky top-0 z-50">
+                <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <h1 class="text-2xl font-bold text-blue-400">⚡ ZIYA Panel</h1>
+                        <span class="text-xs bg-blue-900/30 text-blue-300 px-2 py-1 rounded">v1.0</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button id="theme-btn" class="p-2 hover:bg-amoled-input rounded-lg transition" title="تغییر تم">
+                            🌙
+                        </button>
+                        <button id="settings-btn" class="p-2 hover:bg-amoled-input rounded-lg transition" title="تنظیمات">
+                            ⚙️
+                        </button>
+                        <button id="logout-btn" class="p-2 hover:bg-red-900/20 text-red-400 rounded-lg transition" title="خروج">
+                            🚪
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="max-w-7xl mx-auto px-4 py-8">
+                <!-- Stats Section -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-amoled-card border border-amoled-border rounded-lg p-6">
+                        <div class="text-gray-400 text-sm mb-2">تعداد کاربران</div>
+                        <div class="text-3xl font-bold text-green-400" id="total-users">0</div>
+                    </div>
+                    <div class="bg-amoled-card border border-amoled-border rounded-lg p-6">
+                        <div class="text-gray-400 text-sm mb-2">کاربران فعال</div>
+                        <div class="text-3xl font-bold text-blue-400" id="active-users">0</div>
+                    </div>
+                    <div class="bg-amoled-card border border-amoled-border rounded-lg p-6">
+                        <div class="text-gray-400 text-sm mb-2">ترافیک کل</div>
+                        <div class="text-3xl font-bold text-yellow-400" id="total-traffic">0 GB</div>
+                    </div>
+                    <div class="bg-amoled-card border border-amoled-border rounded-lg p-6">
+                        <div class="text-gray-400 text-sm mb-2">درآمد</div>
+                        <div class="text-3xl font-bold text-purple-400" id="total-revenue">0 تومان</div>
+                    </div>
+                </div>
+
+                <!-- Users Section -->
+                <div class="bg-amoled-card border border-amoled-border rounded-lg p-6 mb-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold">لیست کاربران</h2>
+                        <button id="add-user-btn" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg font-medium transition">
+                            + افزودن کاربر
+                        </button>
+                    </div>
+
+                    <!-- Search and Filter -->
+                    <div class="flex gap-4 mb-6">
+                        <input 
+                            type="text" 
+                            id="search-input"
+                            placeholder="جستجوی نام کاربری..."
+                            class="flex-1 px-4 py-2 bg-amoled-input border border-amoled-border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                        <select id="status-filter" class="px-4 py-2 bg-amoled-input border border-amoled-border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">همه</option>
+                            <option value="active">فعال</option>
+                            <option value="inactive">غیرفعال</option>
+                        </select>
+                    </div>
+
+                    <!-- Users Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-amoled-border">
+                                    <th class="text-right py-3 px-4">نام کاربری</th>
+                                    <th class="text-right py-3 px-4">وضعیت</th>
+                                    <th class="text-right py-3 px-4">حجم</th>
+                                    <th class="text-right py-3 px-4">زمان باقی‌مانده</th>
+                                    <th class="text-right py-3 px-4">قیمت</th>
+                                    <th class="text-right py-3 px-4">عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table-body">
+                                <!-- Users will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Add/Edit User Modal -->
+        <div id="user-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div class="bg-amoled-card border border-amoled-border rounded-lg p-8 w-full max-w-md max-h-96 overflow-y-auto">
+                <h2 class="text-2xl font-bold mb-6" id="modal-title">افزودن کاربر جدید</h2>
+                
+                <form id="user-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">نام کاربری</label>
+                        <input 
+                            type="text" 
+                            id="username-input"
+                            class="w-full px-4 py-2 bg-amoled-input border border-amoled-border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">حجم (GB)</label>
+                        <input 
+                            type="number" 
+                            id="volume-input"
+                            class="w-full px-4 py-2 bg-amoled-input border border-amoled-border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">مدت زمان (روز)</label>
+                        <input 
+                            type="number" 
+                            id="duration-input"
+                            class="w-full px-4 py-2 bg-amoled-input border border-amoled-border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">قیمت (تومان)</label>
+                        <input 
+                            type="number" 
+                            id="price-input"
+                            class="w-full px-4 py-2 bg-amoled-input border border-amoled-border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">لینک ساب‌اسکریپشن</label>
+                        <input 
+                            type="text" 
+                            id="sub-link-input"
+                            placeholder="https://..."
+                            class="w-full px-4 py-2 bg-amoled-input border border-amoled-border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        >
+                    </div>
+
+                    <div class="flex gap-4 pt-4">
+                        <button 
+                            type="submit"
+                            class="flex-1 bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg font-medium transition"
+                        >
+                            ذخیره
+                        </button>
+                        <button 
+                            type="button"
+                            id="close-modal-btn"
+                            class="flex-1 bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg font-medium transition"
+                        >
+                            انصراف
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div class="bg-amoled-card border border-amoled-border rounded-lg p-8 w-full max-w-md max-h-96 overflow-y-auto">
+                <h2 class="text-2xl font-bold mb-6">تنظیمات</h2>
+                
+                <form id="settings-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">رمز عبور جدید</label>
+                        <input 
+                            type="password" 
+                            id="new-password-input"
+                            class="w-full px-4 py-2 bg-amoled-input border border-amoled-border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">لینک ربات تلگرام</label>
+                        <input 
+                            type="text" 
+                            id="bot-link-input"
+                            placeholder="https://t.me/..."
+                            class="w-full px-4 py-2 bg-amoled-input border border-amoled-border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                    </div>
+
+                    <div class="flex gap-4 pt-4">
+                        <button 
+                            type="submit"
+                            class="flex-1 bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg font-medium transition"
+                        >
+                            ذخیره
+                        </button>
+                        <button 
+                            type="button"
+                            id="close-settings-btn"
+                            class="flex-1 bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg font-medium transition"
+                        >
+                            بستن
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
